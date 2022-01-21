@@ -27,6 +27,38 @@ class Element:
             self.props[field] = raw_tag[prop_start_i:prop_end_i].split()
 
     @staticmethod
+    def GetWithTag(raw_html: str, tag_type: str):
+        '''
+        Get all elements with the given tag
+        '''
+        
+        elements = []
+
+        while raw_html.count(tag_type) > 0:
+
+            # Calculate opening tag index & get opening tag content (eg. '<div id="sample-id" class="content">')
+            opening_tag_start_i = raw_html.find(tag_type) - 1
+            opening_tag_end_i = raw_html[opening_tag_start_i:].find('>') + opening_tag_start_i + 1
+            opening_tag_content = raw_html[opening_tag_start_i:opening_tag_end_i]
+
+            if raw_html[opening_tag_start_i] != '<':
+                raw_html = raw_html.replace(tag_type, '█'*len(tag_type), 1)
+                continue
+
+            # Get closing tag index with GetClosingTag() function
+            closing_tag_i = GetClosingTag(raw_html, opening_tag_content)
+            
+            # Get the content between the opening and closing tag
+            content = raw_html[opening_tag_end_i:closing_tag_i]
+            
+            # Return new HTML element object
+            elements.append(Element(opening_tag_content, content))
+
+            raw_html = raw_html.replace(tag_type, '█'*len(tag_type), 1)
+
+        return elements
+
+    @staticmethod
     def Get(raw_html: str, identification: str):
         '''
         Get all elements with the given class

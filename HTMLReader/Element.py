@@ -1,5 +1,5 @@
-from src.Read import *
-from src.strUtils import *
+from HTMLReader.Read import *
+from HTMLReader.strUtils import *
 
 
 class Element:

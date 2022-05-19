@@ -1,5 +1,6 @@
 # HTML-Reader
 Read HTML data and convert it into python classes.
+There are bugs when you're trying to read data from nested elements. Maybe i'll fix it later.
 
 
 ## Installation
